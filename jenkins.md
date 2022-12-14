@@ -6800,3 +6800,13 @@ Jenkins对于片段生成器分成了两种类别，一种是基于pipeline声�
 
 
 然后就可以复制粘贴放到pipeline项目中的脚本中去了。
+
+# 15 接入统一登录
+<img width="1400" alt="image" src="https://user-images.githubusercontent.com/43371021/207491020-2e791f72-34d5-4c93-bebf-7982fb2310af.png">
+
+<img width="1422" alt="image" src="https://user-images.githubusercontent.com/43371021/207491120-161c4c2c-c3e3-48ed-a3bd-f1cd4bdd7d22.png">
+
+<img width="771" alt="image" src="https://user-images.githubusercontent.com/43371021/207491222-3c9dc128-3560-4976-ad3b-96b245d34642.png">
+
+
+
