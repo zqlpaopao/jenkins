@@ -6806,7 +6806,26 @@ Jenkins对于片段生成器分成了两种类别，一种是基于pipeline声�
 
 <img width="1422" alt="image" src="https://user-images.githubusercontent.com/43371021/207491120-161c4c2c-c3e3-48ed-a3bd-f1cd4bdd7d22.png">
 
-<img width="771" alt="image" src="https://user-images.githubusercontent.com/43371021/207491222-3c9dc128-3560-4976-ad3b-96b245d34642.png">
+```
+import os
+import json
+import urllib
+import urllib2
+import hashlib
+env_dist = os.environ
+name = env_dist.get('U')
+auth = env_dist.get('P')
+md5_auth =  hashlib.md5(auth).hexdigest()
+url = '统一请求地址'
+req = urllib2.Request(url, urllib.urlencode({'name-key': name, 'auth-key': md5_auth}))
+response = urllib2.urlopen(req)
+res = json.loads(response.read())["REQ_DATA"]
+if res:
+    os._exit(0)
+else:
+    os._exit(1)
+```
 
+<img width="762" alt="image" src="https://user-images.githubusercontent.com/43371021/207491892-13ab56bf-c571-4190-9537-8036c93da1c5.png">
 
 
