@@ -244,10 +244,6 @@ root      8454  0.0  0.0 112824   984 pts/0    S+   22:13   0:00 grep --color=au
 了解完基本配置信息，下面看一下jenkins的主配置文件
 
 
-
-
-```
-
 ```
 cat /etc/sysconfig/jenkins|grep -v "^#\|^$"
 
@@ -272,10 +268,6 @@ JENKINS_ARGS=""
 ```
 
 
-
-
-
-```
 在这里， 就可以看到jenkins的详细配置了， 包括Jenkins的主要工作目录， Jenkins的端口， 运行Jenkins的用户(默认为jenkins) 以及jenkins启动时的java参数等。如果要修改jenkins的jvm参数， 只需要将配置放到JENKINS_JAVA_OPTIONS参数里即可，多个参数使用空格隔开，修改完配置文件，不要忘了重启Jenkins服务。
 
 
