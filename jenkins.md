@@ -228,21 +228,17 @@ Environment="JENKINS_PORT=8080"
 
 
 ```
-
-```
-
- ps aux|grep jenkins
-
- jenkins   6441  0.3 11.8 4690024 950276 ?      Ssl  16:01   1:12 /usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=%C/jenkins/war --httpPort=8080
+ps aux|grep jenkins
+jenkins   6441  0.3 11.8 4690024 950276 ?      Ssl  16:01   1:12 /usr/bin/java -Djava.awt.headless=true -jar /usr/share/java/jenkins.war --webroot=%C/jenkins/war --httpPort=8080
 root      8454  0.0  0.0 112824   984 pts/0    S+   22:13   0:00 grep --color=auto jenkins
-
 ```
+
+ 
 
 由上面信息可以看到， jenkins服务主要配置文件为`/etc/sysconfig/jenkins`使用的java为自定义的`/usr/local/jdk 1.8.0_231/bin/java`启动方式也是通过war包启动， 日志文件存放在/var/Log/jenkins/jenkins.log) 文件里， jenkins服务运行所需要的程序文件放到了/var/cache/jenkins/war目录。当然，这些配置的路径，都是可以修改的。
 
 
-了解完基本配置信息，下面看一下jenkins的主配置文件
-
+了解完基本配置信息，下面看一下jenkins的主配置文件 
 
 ```
 cat /etc/sysconfig/jenkins|grep -v "^#\|^$"
@@ -265,8 +261,9 @@ JENKINS_HANDLER_MAX="100"
 JENKINS_HANDLER_IDLE="20"
 JENKINS_EXTRA_LIB_FOLDER=""
 JENKINS_ARGS=""
-```
 
+
+```
 
 在这里， 就可以看到jenkins的详细配置了， 包括Jenkins的主要工作目录， Jenkins的端口， 运行Jenkins的用户(默认为jenkins) 以及jenkins启动时的java参数等。如果要修改jenkins的jvm参数， 只需要将配置放到JENKINS_JAVA_OPTIONS参数里即可，多个参数使用空格隔开，修改完配置文件，不要忘了重启Jenkins服务。
 
@@ -290,26 +287,16 @@ guage"为zh_CN，并勾选Ignore browser preference and force this language to a
 安装完重启服务即可
 
 ```
-
 systemctl restart jenkins
-
 ```
 
-
 配置好后重启Jenkins，从新登录界⾯就发现英⽂菜单变成了中⽂菜单。
-
 
 Jenkins针对不同的安装⽅式或者不同的版本汉化⽅法可能不⼀样，⼤多数版本使⽤上
 ⾯的⽅法就能汉化成功。但是有的版本安装该插件后，重启jenkins后发现⾯板还是英
 ⽂的，汉化不成功。那么接下来就需要在安装Localization: Chinese (Simplified）插件
 了，安装好后重启Jenkins即可。如果汉化完发现⾯板有⼀部分是中⽂⼀部分是英⽂的
 话，可能与jenkins的版本或者安装⽅式有关了。
-
-
-
-
-
-
 
 # 5、修改插件更新源
 
@@ -326,10 +313,7 @@ Jenkins强⼤的功能和扩展离不开插件的⽀持。在安装jenkins时，
 
 
 
-
-
 ```
-
 #原来地址
 https://updates.jenkins.io/update-center.json
 清华源
@@ -337,8 +321,8 @@ https://mirrors.tuna.tsinghua.edu.cn/jenkins/
 
 国内
 https://updates.jenkins-zh.cn/update-center.json
-
 ```
+
 新版的到此就完成了
 
 老版本的要以下操作
@@ -364,19 +348,17 @@ https://updates.jenkins-zh.cn/update-center.json
 怎么办？可以修改Jenkins的配置⽂件`${JENKINS_HOME}/config.xml`，找到：
 
 ```
-
 <useSecurity>true</useSecurity>
-
 ```
 
 将true 改为false，然后重启jenkins。
 
 ```
-
 找到配置文件位置
 cat /etc/sysconfig/jenkins|grep -v "^#\|^$"
 
 cat /var/lib/jenkins/config.xml
+
 
 ```
 
@@ -479,7 +461,6 @@ ckup Now按钮就会⽴即进⾏备份。如下按钮：
 安装好Jenkins后开始进⾏配置，⾸先安装插件，本次教程⽤到如下公共插件：
 
 ```
-
 Maven Integration plugin：⽤于创建maven项⽬的插件
 Pipeline：⽤于创建pipeline项⽬的插件
 Ansible Plugin：⽤于使⽤ansible插件
@@ -514,41 +495,33 @@ Role-based Authorization Strategy：⽤户权限管理插件
 继续往下浏览，会发现有maven⼯具的配置，由于还没有安装，这⾥先配置⼀下。
 到apache官⽹下载（根据个⼈需要选择指定的版本下载）。
 
-
-
-
-
 解压后直接放到指定⽬录，然后在/etc/profile 添加环境变量配置，⽐如我的配置如下。
 
 ```
-
 https://maven.apache.org/download.cgi
-
 ```
 
 
-```
 
+```
 $ tar -zxvf apache-maven-3.8.4-bin.tar.gz -C /usr/local
 $ vi /etc/profile
 export M2_HOME=export M2_HOME=/usr/local/apache-maven-3.8.4
 export PATH=$PATH:$M2_HOME/bin
 $ source /etc/profile
-
 ```
 
-验证。
+
 
 ```
-
 mvn -v
 Apache Maven 3.8.4 (9b656c72d54e5bacbed989b64718c159fe39b537)
 Maven home: /usr/local/apache-maven-3.8.4
 Java version: 1.8.0_282, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.282.b08-1.el7_9.x86_64/jre
 Default locale: zh_CN, platform encoding: UTF-8
 OS name: "linux", version: "3.10.0-957.el7.x86_64", arch: "amd64", family: "unix"
-
 ```
+
 ![](jenkins.assets/2022-03-07-11-55-51-image.png)
 
 需要注意的是：
@@ -669,9 +642,9 @@ sonar从如下⼏个维度检测代码质量：
   潜在的缺陷；
 
 - 糟糕的复杂度分布⽂件、类、⽅法等，如果复杂度过⾼将难以改变，这会使得开发⼈员难以理解它们，且没有⾃动化的单元测试，对于程序中的任何组件的改变都将可能导致需要全⾯的回归测试；
-  
+
   注释不⾜或者过多没有注释将使代码可读性变差，特别是当不可避免出现⼈员变动时，程序的可读性⼤幅度下降，⽽过多的注释⼜会使得开发⼈员将精⼒过多的花费在阅读注释上，亦违背初衷；
-  
+
   sonar可以很⽅便地统计并展示单元测试覆盖率；通过sonar可以找出循环，展示包与包、类与类之间相互依赖关系，可以检测⾃定义的架构规则， 可以管理第三⽅的jar包，可以利⽤LCOM4检测单个任务规则的应⽤情况，检测耦合。
 
 - sonar可以展示源码中重复严重的地⽅；
@@ -691,29 +664,21 @@ sonar安装的⽅式也⽐较多，当然最简便的就是使⽤docker了，所
 下载mysql:5.7镜像。
 
 ```
-
 docker run --name mysql5.7 -v /data/mysql5.7-data:/var/lib/mysql -p 3306:3306
-
 ```
 
 说明：
 /data/mysql5.7-data为挂载的宿主机⽬录
 
-
-
 进⼊容器中创建数据库与⽤户。
 
 ```
-
 $ docker exec -it mysql5.7 bash
 root@60253d27a5f5:/# mysql -uroot -p123456
 mysql>
-
 ```
 
 
-
-```
 
 # 4. 创建数据库db_sonar
 
@@ -728,30 +693,21 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> grant all privileges on db_sonar.* to 'sonar'@'%'identified by 'sonar' with g
 Query OK, 0 rows affected, 1 warning (0.00 sec)
 
-
 mysql> flush privileges;
 Query OK, 0 rows affected (0.00 sec)
-
-```
-
 
 有关sonar使⽤mysql数据库的配置就完成了。
 启动sonar容器
 下载 sonarqube:6.7.5 镜像。
 
 ```
-
 docker pull sonarqube:6.7.5
-
-```
 启动sonarqube容器。
-
-```
-
 docker run --name mysql5.7 -v /data/mysql5.7-data:/var/lib/mysql -p 3306:3306 $ docker exec -it mysql5.7 bash
 root@60253d27a5f5:/# mysql -uroot -p123456
 
 ```
+
 说明：
 --link 表示sonar容器要连接到名称为mysql5.7容器，在配置数据库连接的时候，数
 据库地址可以直接写容器的名称
@@ -780,13 +736,13 @@ root@60253d27a5f5:/# mysql -uroot -p123456
 中会通过与Jenkins配合以实现应⽤服务的构建和部署
 
 ```
-
 Docker
 Harbor
 Gitlab
 Ansible
 
 ```
+
 
 
 ## Docker
@@ -866,13 +822,12 @@ Harbor的每个组件都是以Docker容器的形式构建的，官⽅也是使�
 l，harbor安装好以后通过docker ps命令或者docker-compose ps命令可以看到Harbor是
 由7个（新版本是9个）容器组成的，如下所示：
 
-```
-
 # 5. docker-compose ps
 
 5.1 Name Command State Ports
 -----------------------------------------------------------------------------------------------
 
+```
 harbor-adminserver /harbor/harbor_adminserver Up
 harbor-db docker-entrypoint.sh mysqld Up 3306/tcp
 harbor-jobservice /harbor/harbor_jobservice Up
@@ -880,9 +835,7 @@ harbor-log /bin/sh -c crond && rm -f ... Up 127.0.0.1:1514->514/tcp
 harbor-ui /harbor/harbor_ui Up
 nginx nginx -g daemon off; Up 0.0.0.0:443->443/tcp, 0.0.0.0:44
 registry /entrypoint.sh serve /etc/ ... Up 5000/tcp
-
 ```
-
 
 说明
 nginx：nginx负责流量转发和安全验证，对外提供的流量都是从nginx中转，所以开放h
@@ -916,20 +869,19 @@ harbor-log：harbor-log是harbor的⽇志服务，统⼀管理harbor的⽇志。
 下载offline 版本的Harbor
 
 ```
-
 https://github.com/goharbor/harbor/releases
-
 ```
 
 配置Harbor
 
 ```
-
 $ wget https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline
 $ tar xvf harbor-offline-installer-v1.7.5.tgz
-
 ```
 
+
+
+```
 $ cd harbor
 修改harbor.cfg内容如下：
 
@@ -937,14 +889,13 @@ $ cd harbor
 
 #访问管理UI与注册服务的IP地址或主机名，不要使⽤localhost或127.0.0.1，因为Ha
 
+
+
+```
 hostname = 192.168.176.155
-
 ```
 
 
-```
-
-```
 
 # 修改管理员密码
 
@@ -954,16 +905,13 @@ harbor_admin_password = Harbor12345
 执⾏ ./install.sh 即可⾃动下载镜像并启动
 
 
-
-
 只需要修改harbor的地址和登录密码即可，前提需要安装docker-compose
 
 ```
-
 curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-```
+
 执⾏ ./install.sh 即可⾃动下载镜像并启动
 
 到这⾥Harbor就安装完成了
@@ -973,7 +921,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ⽤户/密码 admin Harbor12345
 
-```
+
+
 ![](jenkins.assets/2022-03-07-20-02-09-image.png)
 
 ![](jenkins.assets/2022-03-07-20-03-42-image.png)
@@ -983,23 +932,16 @@ sudo chmod +x /usr/local/bin/docker-compose
 harbor ⽬录下
 
 ```
-
 #前台启动
 docker-compose up
 #后台启动
 docker-compose up -d
 #关闭
 docker-compose down
-
 ```
 
 Docker 默认不允许⾮ HTTPS ⽅式推送镜像。但是可以通过Docker的配置选项来取消
 这个限制
-
-
-
-
-```
 
 ```
 cat /usr/lib/systemd/system/docker.service |grep dockerd
@@ -2027,9 +1969,9 @@ echo $WORKSPACE $BUILD_NUMBER $BUILD_ID $JOB_NAME
 **其中：**
 
 * `List view`选项比较简单，用于从全局job列表中自定义选择要放到该视图下的Job，选择Job时可以通过条件过滤或者正则表达式匹配想要放到该视图下的Job；同时对于该视图中的显示Job信息的列的字段名称进行自定义添加或者删除，如下所示
-  
+
   ![](jenkins.assets/2022-03-08-17-46-29-image.png)
-  
+
   根据自己实际需求配置即可。
 
 * `My View`选项将会将当前用户所能看到的所有job添加到新创建的视图中。
@@ -2931,7 +2873,6 @@ CONTAINER ID        IMAGE                                                    COM
 根据name获取指定的容器
 
 ```
-
 $ docker ps --filter "name=nostalgic"
 
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -3390,7 +3331,6 @@ vars:
 这样做就可以了：
 
 ```
-
 hosts: app_servers
 vars:
      app_path: "{{ base_path }}/22"
@@ -4343,7 +4283,6 @@ $ cat foo.cfg.j2{% set test_list=['test','test1','test2'] %}{% for i in list  %}
 Jinja2的语法是由variables(变量)和statement(语句)组成，如下：
 
 * variables: 可以输出数据
-  
 
 ```
   {{ my_variable }}
@@ -4351,9 +4290,12 @@ Jinja2的语法是由variables(变量)和statement(语句)组成，如下：
 ```
 
 * statements: 可以用来创建条件和循环等等
-  
+
 
   ```
+  
+  ```
+
 #  简单的if else elif endif
 
   {% if my_conditional %}
@@ -4362,7 +4304,7 @@ Jinja2的语法是由variables(变量)和statement(语句)组成，如下：
   ...
       {% else %}
   {% endif %}
-  
+
     # for 循环
 
   {% for item in all_items %}
@@ -4370,9 +4312,8 @@ Jinja2的语法是由variables(变量)和statement(语句)组成，如下：
   {% endfor %}
 
   {# COMMENT #} 表示注释
-  
-  ```
 
+  ```
 从variables的第二个示例可知，Jinja2 支持使用带过滤器的 Unix 型管道操作符，也可以称之为过滤器，ansible有很多的内置[过滤器](https://docs.ansible.com/ansible/2.7/user_guide/playbooks_filters.html#filters-for-formatting-data)可供使用。
 
 下面以一个示例将上面的语法做个简单的说明：
@@ -4380,6 +4321,7 @@ Jinja2的语法是由variables(变量)和statement(语句)组成，如下：
 
 
   ```
+
 $ cat /root/template-test.yaml 
 ---
 
@@ -4420,14 +4362,15 @@ value3 -->{{i}}
 $ ansible-playbook template-test.yaml
 或者通过ad-hoc命令执行
 $ ansible ansible -m template -a "src=test.j2 dest=/opt/test"
-  ```
 
+  ```
 执行结果
 
-```
-$ cat /opt/test
-```
+  ```
 
+$ cat /opt/test
+
+```
 
 
     test
@@ -4443,12 +4386,13 @@ $ cat /opt/test
 上面的示例为了简单，将所有的变量放到了playbook的yaml文件中，当然，该变量也可以放到模板文件中，如
 
 ```
+
 {% set test_list=['test','test1','test2'] %}
 {% for i in test_list  %}
     {{i}}
 {% endfor %}
-```
 
+```
 效果与上面的一样
 
 ### 10.5.1 去掉换行符
@@ -4456,21 +4400,23 @@ $ cat /opt/test
 对于上面的结果发现，每条结果后会自动换行，如果不想换行，可以在结束**控制符"%}"之前添加一个“-”**，如下所示
 
 ```
+
 {% for i in test_list1 -%}
 {{ i }}
 {%- endfor %}
-```
 
+```
 ### 10.5.2 字符串拼接
 
 在jinja2中，使用波浪符"~"作为字符串连接符，它会把所有的操作数转换为字符串，并且连接它们。
 
 ```
+
 {% for key,val in {'test1':'v1','num':18}.iteritems() %}
 {{ key ~ ':' ~ val }}
 {% endfor %}
-```
 
+```
 ### 10.5.3 转义
 
 在对配置文件进行操作的时候，难免遇见设置特殊字符，比如"空格"，"#"，单引号双引号之类的字符，如果想要保留这些特殊字符，就需要对这些字符进行转义。
@@ -4478,6 +4424,7 @@ $ cat /opt/test
 使用转义操作，简单的可以使用单引号" ' " ，进行纯粹的字符串处理，如
 
 ```
+
 $ cat /tmp/ansible/test.j2 
 
 {% for i in [8,1,5,3,9] %}
@@ -4496,13 +4443,14 @@ $ cat template-test.yaml
     template:
       src: /tmp/ansible/test.j2
       dest: /opt/test
+
 ```
 
 ```
+
 执行结果如下
 
 ```
-
     '8'
     {# i #}
     {{ i }}
@@ -4516,12 +4464,13 @@ $ cat template-test.yaml
  jinja2 可以使用`"{% raw %}"`块保持"{% raw %}"与"{% endraw %}"之间的所有"{{ }}"、"{% %}"或者"{# #}"都不会被jinja2解析，比如
 
 ```
+
 # cat test.j2
 
 {% raw %}
     {% for i in [8,1,5,3,9] %}
-```
 
+```
 
 
     {% {{ i }} %}
@@ -4533,9 +4482,10 @@ $ cat template-test.yaml
 执行结果为
 
 ```
-  {% for i in [8,1,5,3,9] %}xxxxxxxxxx 1
-```
 
+  {% for i in [8,1,5,3,9] %}xxxxxxxxxx 1
+
+```
 {% {{ i }} %}
 {# {{ i }} #}
 {% {{ i }} %}
@@ -4567,9 +4517,10 @@ Jenkins与Ansible的集成使用主要有三种方式：
 使用"**Exec shell**"，在输入框中输入：
 
 ```
-ansible localhost -m shell -a "hostname"
-```
 
+ansible localhost -m shell -a "hostname"
+
+```
 **说明：**
 
 该命令用来在本机执行hostname命令。  
@@ -4634,45 +4585,49 @@ jenkins安装后，在执行job任务的时候默认使用jenkins用户进行，
 修改Jenkins配置文件。
 
 ```
+
 $ vim /etc/sysconfig/jenkins
 #修改JENKINS_USER，并去掉当前行注释
 JENKINS_USER="root"
 
 ```
-
 修改Jenkins相关文件夹用户权限（根据实际情况做修改，也可以略过此步骤）。
 
 ```
+
 chown -R root:root /var/lib/jenkins
 chown -R root:root /var/cache/jenkins
 chown -R root:root /var/log/jenkins
-```
 
+```
 重启Jenkins（若是其他方式安装的Jenkins则重启方式略不同）。
 
 ```
-systemctl restart jenkins
-```
 
+systemctl restart jenkins
+
+```
 **方法二**
 
 配置jenkins的用户终端，修改jenkins用户shell为bash。
 
 ```
+
 cat /etc/passwd
 jenkins:x:989:985:Jenkins Automation Server:/var/lib/jenkins:/bin/bash
 usermod -s  /bin/bash jenkins
-```
 
+```
 配置jenkins用户连接ssh免秘钥。
 
 ```
+
 [root@ansible ]# su jenkins
 bash-4.2$  ssh-keygen -t rsa
 
 bash-4.2$ ssh-copy-id root@ip
-```
 
+```
 使用哪一种方法都可以，但是建议使用方法二，配置好后重新执行job就可以了。
 
 方法三
@@ -4683,8 +4638,8 @@ bash-4.2$ ssh-copy-id root@ip
 在/etc/sudoers下添加以下内容
 visudo
 jenkins ALL=(ALL)       NOPASSWD:ALL
-```
 
+```
 方法四
 
 以上的方法都不行
@@ -4697,8 +4652,8 @@ jenkins ALL=(ALL)       NOPASSWD:ALL
 3、
 ssh-copy-id -i  /var/lib/jenkins/.ssh/id_rsa.pub root@xx.xx.x.x
 4、输入密码
-```
 
+```
 5、在配置
 
 ![](jenkins.assets/2022-03-09-13-53-44-image.png)
@@ -4706,6 +4661,7 @@ ssh-copy-id -i  /var/lib/jenkins/.ssh/id_rsa.pub root@xx.xx.x.x
 测试
 
 ```
+
 /usr/bin/ansible test -m shell -a hostname -u root -f 5## 基础示例ansible-playbook
 
 了解完jenkins与ansible集成如何使用后，下面演示一下使用ansible-playbook部署服务。
@@ -4715,11 +4671,12 @@ ssh-copy-id -i  /var/lib/jenkins/.ssh/id_rsa.pub root@xx.xx.x.x
 以在"**Jenkins基础实践**"章节部署的`test-helloworld`为例，在该章节中使用内置插件虽然实现了项目部署的自动化，但是在向大规模的主机中部署项目的时候，使用`publish over ssh`插件显然已经很难满足要求，所以下面看一下如何用playbook实现该项目的部署。
 
 脚本如下：
-```
-
-
 
 ```
+
+
+```
+
 $ cat /home/single-playbook-helloworld.yaml 
 
 - hosts: "{{ host }}"
@@ -4767,9 +4724,11 @@ $ cat /home/single-playbook-helloworld.yaml
 
   - name: 启动tomcat
     shell: systemctl restart tomcat
+
 ```
 
 ```
+
 -- hosts: "{{ host }}"
 gather_facts: False
 vars:
@@ -4813,8 +4772,8 @@ tasks:
 
 - name: 启动服务
   shell: chdir={{ project_dir }}/  nohup ./{{project_name}} > /tmp/log.log 2>&1 &
-```
 
+```
 **流程说明：**
 
 该脚本适用于新建项目和已经在用的项目的服务部署；
@@ -4830,9 +4789,10 @@ tasks:
 上面的脚本，既可以项目中使用插件配置，也可以在**"Exec shell**"中执行命令，我这里为了简便直接在"Exec shell"中输入命令。
 
 ```
-ansible-playbook  -u root  -i /etc/ansible/hosts /var/lib/jenkins/single-playbook-helloworld.yaml -e "workspace=${WORKSPACE} host=xx.xx.xx.x project_name=${JOB_BASE_NAME} build_num=$BUILD_ID"
-```
 
+ansible-playbook  -u root  -i /etc/ansible/hosts /var/lib/jenkins/single-playbook-helloworld.yaml -e "workspace=${WORKSPACE} host=xx.xx.xx.x project_name=${JOB_BASE_NAME} build_num=$BUILD_ID"
+
+```
 执行结果如下：
 
 ![](jenkins.assets/2022-03-09-17-06-44-image.png)
@@ -4856,12 +4816,13 @@ ansible-playbook  -u root  -i /etc/ansible/hosts /var/lib/jenkins/single-playboo
 首先使用ansible将在**Jenkins基础基础实践**章节中"**部署服务到容器**"的部署流程先过一遍，如下：
 
 ```
+
  - hosts: "{{ host }}"
-  remote_user: root
-  gather_facts: no
-  vars:
-     jar_name: "{{ workspace }}/{{ project_name }}"
-     remote_dest: /root/zql_test/docker/code
+   remote_user: root
+     gather_facts: no
+     vars:
+   jar_name: "{{ workspace }}/{{ project_name }}"
+   remote_dest: /root/zql_test/docker/code
 
   tasks:
 
@@ -4885,17 +4846,18 @@ ansible-playbook  -u root  -i /etc/ansible/hosts /var/lib/jenkins/single-playboo
 
   - name: run container
     shell: docker run --network host -e TZ="Asia/Shanghai" -d -v /etc/localtime:/etc/localtime:ro -m 2G --cpu-shares 512 -v {{remote_dest}}/log:/data/logs/fw-base-nop --name {{project_name}} {{project_name}}
-```
 
+```
 在jenkins的命令行配置如下，将原来使用`Send files or execute commands over ssh`变成使用`execute shell`。
 
 ![](jenkins.assets/2022-03-09-17-45-41-image.png)
 
 
 ```
-ansible-playbook  -u root -vvv  /var/lib/jenkins/yaml/dev-test.yaml -e "workspace=${WORKSPACE} project_name=${JOB_BASE_NAME} host=xx.xx.xx.1x9"
-```
 
+ansible-playbook  -u root -vvv  /var/lib/jenkins/yaml/dev-test.yaml -e "workspace=${WORKSPACE} project_name=${JOB_BASE_NAME} host=xx.xx.xx.1x9"
+
+```
 然后在执行，执行结果如下：
 
 
@@ -4918,9 +4880,10 @@ Dockerfile也要事先存在于目标主机上，同样对于新项目还需要�
 所以，基于上面可能会出现的问题，对这个playbook进一步优化如下：
 
 ```
+
 - hosts: "{{ target_host }}"
-remote_user: root
-gather_facts: False
+  remote_user: root
+  gather_facts: False
 
 vars:
   jar_src: "{{ jar_file }}"
@@ -4985,7 +4948,6 @@ tasks:
     shell: 'docker run {{ run_option }} --name {{ project_name }} {{ image_name }}'
 
 ```
-
 **说明**
 
 hosts 指定的主机需要在inventory清单文件中存在，这里可以写一个主机ip，也可以写一个主机组名，同样也可以通过变量的形式传入。
@@ -5001,6 +4963,7 @@ hosts 指定的主机需要在inventory清单文件中存在，这里可以写�
 Jenkins里执行时需要传入参数：
 
 ```
+
 #!/bin/bash
 
 #获取git commit的short id
@@ -5020,8 +4983,8 @@ container_run_option="--network host -e TZ="Asia/Shanghai" -d -v /etc/localtime:
 
 #执行playbook，传入参数
 ansible-playbook -i /etc/ansible/hosts /root/dev-deploy.yaml -e "{'jar_file':${jar_file},'project_name':'${project_name}','image_name':'${image_name}' ,'run_option':'$container_run_option','target_host':'192.168.176.160'}"
-```
 
+```
 **说明：**
 
 每次新添加项目时只要修改项目名称即可，如果对容器运行时的参数有要求的话也可以修改一下。
@@ -5037,6 +5000,7 @@ ansible-playbook -i /etc/ansible/hosts /root/dev-deploy.yaml -e "{'jar_file':${j
 由于构建镜像时使用了变量，所以dockerfile也需要重构一下。
 
 ```
+
   FROM fabric8/java-alpine-openjdk8-jre
   ARG project_name 
   ENV JAVA_APP_JAR ${project_name}.jar
@@ -5045,7 +5009,6 @@ ansible-playbook -i /etc/ansible/hosts /root/dev-deploy.yaml -e "{'jar_file':${j
   CMD java -jar /deployments/$JAVA_APP_JAR
 
 ```
-
 使用优化后的playbook基本上可以满足微服务下服务部署的需求了，但依然存在不足之处。
 
 对于使用不同镜像的服务没有对dockerfile做处理，可以通过设置变量传参的方式实现。
@@ -5096,6 +5059,7 @@ pipeline脚本可以使用两种语法进行编写： **声明式和脚本式**�
 如果没有指定slave主机，则默认在master主机执行任务
 
 ```
+
 node {  
 
     stage('Build') { 
@@ -5109,8 +5073,8 @@ node {
     }
 
 }
-```
 
+```
 **说明**
 
 * `node` 是脚本式流水线的一种特定语法，它指示 Jenkins 在任何可用的代理/节点上执行流水线 (包含在其中的任何stage)。
@@ -5124,6 +5088,7 @@ node {
 示例如下：
 
 ```
+
 pipeline { 
     agent any 
     stages {
@@ -5145,8 +5110,8 @@ pipeline {
         }
     }
 }
-```
 
+```
 **说明**
 
 * `pipeline {}`是声明式流水线的特定语法，他定义了包含执行整个流水线的所有内容；
@@ -5184,11 +5149,12 @@ node和agent关键字都是用来指定jenkins的代理节点 ，它是jenkins�
 所有有效的声明式流水线代码必须包含在一个 `pipeline` 块中, 比如：
 
 ```
+
 pipeline {
     ....
 }
-```
 
+```
 在声明式流水线中有效的基本语句和表达式遵循与 [Groovy的语法](http://groovy-lang.org/syntax.html)同样的规则， 但是有以下例外：
 
 * 流水线顶层必须是一个 block块: `pipeline {}`。
@@ -5225,6 +5191,7 @@ pipeline {
 `docker`关键字也可以添加 `args` 参数，添加的参数可能包含直接传递到 `docker run` 时调用的参数，比如挂载目录。
 
 ```
+
 agent {
       docker {
           image 'maven:3-alpine'
@@ -5232,8 +5199,8 @@ agent {
           args  '-v /tmp:/tmp'
       }
   }
-```
 
+```
   ## dockerfile
 
 除了上面直接使用docker镜像启动容器以外，还可以使用通过 `Dockerfile` 构建的容器。 通常将`Dockerfile`放到源代码仓库的根目录下 : `agent { dockerfile true }`。
@@ -5241,20 +5208,23 @@ agent {
 如果Dockerfile不在根目录下，也可以在其它目录下构建, 需要使用 `dir` 参数来指定dockerfile目录：
 
 ```
- agent { dockerfile {dir 'someSubDir' } }
-```
 
+ agent { dockerfile {dir 'someSubDir' } }
+
+```
  如果 `Dockerfile` 有另一个名称, 你可以使用 `filename` 选项指定该文件名。
 
 如果构建时需要传递参数到dockerfile，可以使用 `additionalBuildArgs` 选项提交，比如：
 
 ```
-  agent { dockerfile {additionalBuildArgs '--build-arg foo=bar' } }
-```
 
+  agent { dockerfile {additionalBuildArgs '--build-arg foo=bar' } }
+
+```
 将上面的综合起来使用docker命令为 `docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/` ，使用pipeline代码为：
 
 ```
+
 agent {
       dockerfile {
           filename 'Dockerfile.build'
@@ -5263,20 +5233,21 @@ agent {
           additionalBuildArgs  '--build-arg version=1.0.2'
       }
   }
-```
 
+```
   ## kubernetes
 
 该关键字用于在kubenretes集群内动态的启动一个pod作为jenkins的slave节点去执行流水线操作，流水线执行完毕后pod自动销毁，官网给出的示例如下：
 
 ```
+
  agent {
       kubernetes {
           label podlabel
           yaml """  kind: Pod  metadata:    name: jenkins-slave  spec:    containers:    - name: kaniko      image: gcr.io/kaniko-project/executor:debug      imagePullPolicy: Always      command:      - /busybox/cat      tty: true      volumeMounts:        - name: aws-secret          mountPath: /root/.aws/        - name: docker-registry-config          mountPath: /kaniko/.docker    restartPolicy: Never    volumes:      - name: aws-secret        secret:          secretName: aws-secret      - name: docker-registry-config        configMap:          name: docker-registry-config  """
      }
-```
 
+```
  看着有些复杂凌乱，但实际使用`kubernetes agent`的时候，如果用到脚本式语法，可能就会比这个简单的多。
 
 **agent的一些常见选项**
@@ -5292,14 +5263,15 @@ agent {
 自定义工作区，可以应用在 `agent` 的所有流水线或者一些 `stage`。自定义工作区存在于**节点工作区根目录**下, 它既可以是一个相对路径, 也可以是一个绝对路径。比如：
 
 ```
+
 agent {
       node {
           label 'my-defined-label'
           customWorkspace '/some/other/path'
       }
   }
-```
 
+```
   该选项对 `node`, `docker` 和 `dockerfile` 有用 。
 
 **示例**
@@ -5307,6 +5279,7 @@ agent {
 在指定的slave节点上构建服务
 
 ```
+
 pipeline {
     agent none 
     stages {
@@ -5325,10 +5298,10 @@ pipeline {
     }
 }
 
-​```
+```
 在一个给定的容器镜像(`maven:3-alpine`)上启动一个容器并执行定义在流水线中的所有步骤 。
 
-​```
+```
 
 pipeline {
     agent { docker 'maven:3-alpine' } 
@@ -5340,11 +5313,12 @@ pipeline {
         }
     }
 }
-```
 
+```
 在指定的stage阶段根据给定的镜像启动一个容器并执行定义在流水线中的步骤。
 
 ```
+
 pipeline {
     agent none 
     stages {
@@ -5364,8 +5338,8 @@ pipeline {
         }
     }
 }
-```
 
+```
 **说明**
 
 在流水线最顶层定义了 `agent none` 会强制 `stage` 部分强制定义他自己的 `agent` 部分。
@@ -5375,6 +5349,7 @@ pipeline {
 包含一个或多个 `stage` 指令，pipeline所做的所有工作都会封装在一个或多个 `stage` 指令中。 建议 `stages` 至少包含一个 stage 指令，示例如下：
 
 ```
+
 pipeline {
     agent any
     stages { 
@@ -5385,8 +5360,8 @@ pipeline {
         }
     }
 }
-```
 
+```
 需要说明的是，stages指令是声明式脚本中特有的，包括下面即将说到的steps，也是声明式脚本中特有的，脚本式的流水线中只有stage指令。
 
 ## steps
@@ -5394,6 +5369,7 @@ pipeline {
 `steps` 部分是在给定的 `stage` 中定义的一个或多个step（代码），它包含一个完整的step列表, 而在step里可以定义环境变量，执行脚本等操作，如下示例：
 
 ```
+
 pipeline {
     agent any
     stages {
@@ -5409,8 +5385,8 @@ pipeline {
         }
     }
 }
-```
 
+```
 需要注意的是，在声明式语法中，steps块是必须的。
 
 ## options
@@ -6794,6 +6770,7 @@ Jenkins对于片段生成器分成了两种类别，一种是基于pipeline声�
 然后就可以复制粘贴放到pipeline项目中的脚本中去了。
 
 # 15 接入统一登录
+
 <img width="1400" alt="image" src="https://user-images.githubusercontent.com/43371021/207491020-2e791f72-34d5-4c93-bebf-7982fb2310af.png">
 
 <img width="1422" alt="image" src="https://user-images.githubusercontent.com/43371021/207491120-161c4c2c-c3e3-48ed-a3bd-f1cd4bdd7d22.png">
@@ -6819,5 +6796,4 @@ else:
 ```
 
 <img width="762" alt="image" src="https://user-images.githubusercontent.com/43371021/207491892-13ab56bf-c571-4190-9537-8036c93da1c5.png">
-
 
