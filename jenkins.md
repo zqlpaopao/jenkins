@@ -6771,6 +6771,13 @@ Jenkins对于片段生成器分成了两种类别，一种是基于pipeline声�
 
 # 15 接入统一登录
 [关键](https://plugins.jenkins.io/script-realm/#releases)
+安装插件
+<img width="798" alt="image" src="https://user-images.githubusercontent.com/43371021/212665089-cdf43a25-8ffd-45e7-b2eb-e42188675c05.png">
+
+https://plugins.jenkins.io/ui/search?query=script
+
+<img width="1011" alt="image" src="https://user-images.githubusercontent.com/43371021/212665235-3c8965f2-fb91-4701-a39b-31f6e38331b9.png">
+
 
 <img width="1400" alt="image" src="https://user-images.githubusercontent.com/43371021/207491020-2e791f72-34d5-4c93-bebf-7982fb2310af.png">
 
