@@ -6770,6 +6770,7 @@ Jenkins对于片段生成器分成了两种类别，一种是基于pipeline声�
 然后就可以复制粘贴放到pipeline项目中的脚本中去了。
 
 # 15 接入统一登录
+[关键](https://plugins.jenkins.io/script-realm/#releases)
 
 <img width="1400" alt="image" src="https://user-images.githubusercontent.com/43371021/207491020-2e791f72-34d5-4c93-bebf-7982fb2310af.png">
 
