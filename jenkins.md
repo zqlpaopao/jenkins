@@ -6805,3 +6805,25 @@ else:
 
 <img width="762" alt="image" src="https://user-images.githubusercontent.com/43371021/207491892-13ab56bf-c571-4190-9537-8036c93da1c5.png">
 
+
+# 问题-Host key verification failed.
+jenkins 设置Git SSH凭证后，构建Git更新报错returned status code 128解决
+报错问题如下：
+
+Failed to connect to repository : Command "git ls-remote -h git@IP地址:python/django.git HEAD" returned status code 128:
+stdout:
+stderr: No ECDSA host key is known for (IP地址) and you have requested strict checking.
+Host key verification failed.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+解决问题：
+
+打开：Manage Jenkins >> Configure Global Security 找到Git Host Key Verification Configuration 选项按照如下图修改后保存
+
+![image](https://user-images.githubusercontent.com/43371021/212798537-c9b3f287-6f96-4d89-af6c-85495fd42ab5.png)
+
+
+ 
